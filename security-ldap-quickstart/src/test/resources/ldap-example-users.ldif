@@ -1,0 +1,66 @@
+dn: o=YourCompany,dc=DE
+objectclass: dcObject
+objectclass: organization
+o: YourCompany
+dc: YourCompany
+
+dn: ou=accounts,o=YourCompany,dc=DE
+objectclass: organizationalUnit
+ou: accounts
+
+dn: ou=tool,o=YourCompany,dc=DE
+objectclass: organizationalUnit
+ou: tool
+
+dn: ou=users,ou=tool,o=YourCompany,dc=DE
+objectclass: organizationalUnit
+ou: users
+
+dn: ou=roles,ou=tool,o=YourCompany,dc=DE
+objectclass: organizationalUnit
+ou: roles
+
+dn: uid=tool,ou=accounts,o=YourCompany,dc=DE
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+uid: tool
+cn: tool
+sn: tool
+mail: tool@quarkus.io
+postalCode: 12345
+userPassword: PASSWORD
+
+dn: uid=adminUser,ou=accounts,o=YourCompany,dc=DE
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+uid: adminUser
+cn: adminUser
+sn: adminUser
+mail: adminUser@quarkus.io
+postalCode: 12345
+userPassword: adminUserPassword
+
+dn: uid=standardUser,ou=accounts,o=YourCompany,dc=DE
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+uid: standardUser
+cn: standardUser
+sn: standardUser
+mail: standardUser@quarkus.io
+postalCode: 12345
+userPassword: standardUserPassword
+
+dn:cn=standardRole, ou=roles,ou=tool,o=YourCompany,dc=DE
+objectclass: groupOfNames
+cn: standard
+member: uid=standardUser,ou=accounts,o=YourCompany,dc=DE
+
+
+dn:cn=adminRole, ou=roles,ou=tool,o=YourCompany,dc=DE
+objectclass: groupOfNames
+cn: admin
+member: uid=adminUser,ou=accounts,o=YourCompany,dc=DE
+
