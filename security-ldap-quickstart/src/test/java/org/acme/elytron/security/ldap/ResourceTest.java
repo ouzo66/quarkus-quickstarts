@@ -59,13 +59,23 @@ class ResourceTest {
 	}
 	
 	@Test
-	void testUser() {
-		LOG.info("Test User API.");
+	void testUserForbidden() {
+		LOG.info("Test User API with wrong credentials.");
 		given().auth().basic("adminUser", "adminPassword")
         .when().get("/api/users/me")
         .then()
-           .statusCode(401)
+           .statusCode(403)
            .body(is(""));
+	}
+	
+	@Test
+	void testUser() {
+		LOG.info("Test User API.");
+		given().auth().basic("standardUser", "standardPassword")
+        .when().get("/api/users/me")
+        .then()
+           .statusCode(200)
+           .body(is("standardUser"));
 	}
 	
 	@AfterAll
