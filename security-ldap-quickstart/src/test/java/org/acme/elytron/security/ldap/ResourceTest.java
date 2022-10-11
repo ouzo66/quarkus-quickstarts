@@ -2,6 +2,7 @@ package org.acme.elytron.security.ldap;
 
 import java.util.Properties;
 
+import org.jboss.logging.Logger;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,11 +16,14 @@ import static org.hamcrest.CoreMatchers.is;
 @QuarkusTest
 class ResourceTest {
 	
+	private static final Logger LOG = Logger.getLogger(ResourceTest.class);
+
 	
 	private static LDAPEmbeddedServer ldap = null;
 
 	@BeforeAll
 	static void init() throws Exception {
+		LOG.info("Create LDAP Server.");
 		
 		Properties defaultProperties = new Properties();
         defaultProperties.setProperty(LDAPEmbeddedServer.PROPERTY_DSF, LDAPEmbeddedServer.DSF_INMEMORY);
@@ -36,6 +40,7 @@ class ResourceTest {
 	
 	@Test
 	void testPublic() {
+		LOG.info("Test Public API.");
 		given()
         .when().get("/api/public")
         .then()
@@ -45,6 +50,7 @@ class ResourceTest {
 	
 	@Test
 	void testAdmin() {
+		LOG.info("Test Admin API.");
 		given().auth().basic("adminUser", "adminPassword")
         .when().get("/api/admin")
         .then()
@@ -54,15 +60,17 @@ class ResourceTest {
 	
 	@Test
 	void testUser() {
+		LOG.info("Test User API.");
 		given().auth().basic("adminUser", "adminPassword")
         .when().get("/api/users/me")
         .then()
-           .statusCode(403)
-           .body(is("Forbidden"));
+           .statusCode(401)
+           .body(is(""));
 	}
 	
 	@AfterAll
 	static void end() throws Exception {
+		LOG.info("Stopping LDAP Server.");
 		if (ldap != null) {
 			ldap.stop();
 			ldap = null;

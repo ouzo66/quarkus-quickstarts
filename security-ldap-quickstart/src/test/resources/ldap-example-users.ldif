@@ -40,7 +40,7 @@ cn: adminUser
 sn: adminUser
 mail: adminUser@quarkus.io
 postalCode: 12345
-userPassword: adminUserPassword
+userPassword: adminPassword
 
 dn: uid=standardUser,ou=accounts,o=YourCompany,dc=DE
 objectclass: person
@@ -51,16 +51,16 @@ cn: standardUser
 sn: standardUser
 mail: standardUser@quarkus.io
 postalCode: 12345
-userPassword: standardUserPassword
+userPassword: standardPassword
 
 dn:cn=standardRole,ou=roles,ou=tool,o=YourCompany,dc=DE
 objectclass: groupOfNames
-cn: standard
+cn: standardRole
 member: uid=standardUser,ou=accounts,o=YourCompany,dc=DE
 
 
 dn:cn=adminRole,ou=roles,ou=tool,o=YourCompany,dc=DE
 objectclass: groupOfNames
-cn: admin
+cn: adminRole
 member: uid=adminUser,ou=accounts,o=YourCompany,dc=DE
 
