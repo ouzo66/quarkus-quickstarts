@@ -1,11 +1,9 @@
 package org.acme.elytron.security.ldap;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.Properties;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.keycloak.util.ldap.LDAPEmbeddedServer;
 
@@ -18,10 +16,10 @@ import static org.hamcrest.CoreMatchers.is;
 class ResourceTest {
 	
 	
-	private LDAPEmbeddedServer ldap = null;
+	private static LDAPEmbeddedServer ldap = null;
 
-	@BeforeClass
-	void init() throws Exception {
+	@BeforeAll
+	static void init() throws Exception {
 		
 		Properties defaultProperties = new Properties();
         defaultProperties.setProperty(LDAPEmbeddedServer.PROPERTY_DSF, LDAPEmbeddedServer.DSF_INMEMORY);
@@ -37,16 +35,34 @@ class ResourceTest {
 	}
 	
 	@Test
+	void testPublic() {
+		given()
+        .when().get("/api/public")
+        .then()
+           .statusCode(200)
+           .body(is("public"));
+	}
+	
+	@Test
 	void testAdmin() {
-		given().auth().basic("admin", "adminPassword")
+		given().auth().basic("adminUser", "adminPassword")
         .when().get("/api/admin")
         .then()
            .statusCode(200)
            .body(is("admin"));
 	}
 	
-	@AfterClass
-	void end() throws Exception {
+	@Test
+	void testUser() {
+		given().auth().basic("adminUser", "adminPassword")
+        .when().get("/api/users/me")
+        .then()
+           .statusCode(403)
+           .body(is("Forbidden"));
+	}
+	
+	@AfterAll
+	static void end() throws Exception {
 		if (ldap != null) {
 			ldap.stop();
 			ldap = null;

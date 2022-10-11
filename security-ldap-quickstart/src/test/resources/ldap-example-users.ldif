@@ -53,13 +53,13 @@ mail: standardUser@quarkus.io
 postalCode: 12345
 userPassword: standardUserPassword
 
-dn:cn=standardRole, ou=roles,ou=tool,o=YourCompany,dc=DE
+dn:cn=standardRole,ou=roles,ou=tool,o=YourCompany,dc=DE
 objectclass: groupOfNames
 cn: standard
 member: uid=standardUser,ou=accounts,o=YourCompany,dc=DE
 
 
-dn:cn=adminRole, ou=roles,ou=tool,o=YourCompany,dc=DE
+dn:cn=adminRole,ou=roles,ou=tool,o=YourCompany,dc=DE
 objectclass: groupOfNames
 cn: admin
 member: uid=adminUser,ou=accounts,o=YourCompany,dc=DE
